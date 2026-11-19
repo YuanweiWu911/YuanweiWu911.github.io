@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>吴元伟 · Yuanwei Wu</title>
+<style>
+  :root{
+    --bg:#ffffff; --soft:#f5f8fd; --soft2:#eef3ff; --ink:#16202e; --muted:#5b6b85;
+    --line:#e4eaf4; --brand:#2f5fd0; --brand2:#5470c6; --shadow:0 8px 28px rgba(31,58,120,.08);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","PingFang SC",
+                "Hiragino Sans GB","Helvetica Neue",Arial,sans-serif;
+    line-height:1.7; -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--brand); text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1060px; margin:0 auto; padding:0 24px}
+
+  /* 顶栏 */
+  header.top{
+    position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(10px);
+    background:rgba(255,255,255,.86); border-bottom:1px solid var(--line);
+  }
+  .top .wrap{display:flex; align-items:center; gap:18px; height:60px}
+  .brand{font-weight:700; letter-spacing:.2px; font-size:15px; white-space:nowrap}
+  .brand b{color:var(--brand)}
+  nav.links{margin-left:auto; display:flex; gap:4px; overflow:auto}
+  nav.links a{
+    color:var(--muted); font-size:14px; padding:7px 11px; border-radius:9px; white-space:nowrap;
+    transition:.18s;
+  }
+  nav.links a:hover{color:var(--brand); background:var(--soft); text-decoration:none}
+  .lang{display:flex; border:1px solid var(--line); border-radius:999px; overflow:hidden; flex:none}
+  .lang button{
+    border:0; background:transparent; cursor:pointer; font:inherit; font-size:13px;
+    padding:6px 13px; color:var(--muted); transition:.18s;
+  }
+  .lang button.on{background:var(--brand); color:#fff}
+
+  /* Hero */
+  .hero{
+    background:linear-gradient(180deg,var(--soft2),#ffffff 78%);
+    border-bottom:1px solid var(--line); padding:66px 0 58px;
+  }
+  .hero .wrap{display:flex; gap:34px; align-items:center; flex-wrap:wrap}
+  .avatar{
+    width:118px; height:118px; border-radius:26px; flex:none;
+    background:linear-gradient(135deg,#5470c6,#2f5fd0); color:#fff;
+    display:grid; place-items:center; font-size:40px; font-weight:700; letter-spacing:1px;
+    box-shadow:0 12px 30px rgba(47,95,208,.28);
+  }
+  .hero h1{margin:0 0 6px; font-size:34px; letter-spacing:.5px}
+  .hero .en-name{color:var(--muted); font-size:17px; letter-spacing:2px; margin-bottom:12px}
+  .hero .role{font-size:15.5px; color:#33415c; margin-bottom:4px}
+  .hero .aff{color:var(--muted); font-size:14.5px}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+  .chip{
+    font-size:13px; color:var(--brand); background:#eaf0fd; border:1px solid #d6e2fb;
+    padding:5px 11px; border-radius:999px;
+  }
+
+  /* 通用区块 */
+  section{padding:56px 0; border-bottom:1px solid var(--line)}
+  section:nth-of-type(even){background:var(--soft)}
+  h2.sec{font-size:23px; margin:0 0 6px; display:flex; align-items:center; gap:10px}
+  h2.sec::before{content:""; width:5px; height:20px; border-radius:3px; background:var(--brand)}
+  .sub{color:var(--muted); font-size:14px; margin:0 0 26px}
+  h3.grp{font-size:15px; color:#33415c; margin:26px 0 12px; letter-spacing:.3px}
+
+  /* 简介 */
+  .bio{font-size:15.5px; color:#26313f; max-width:820px}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:22px}
+  .card{background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px 22px; box-shadow:var(--shadow)}
+  .card h4{margin:0 0 10px; font-size:14px; color:var(--brand); letter-spacing:.4px}
+
+  /* 简历：信息表 */
+  .info{display:grid; grid-template-columns:repeat(2,1fr); gap:0 26px}
+  .info .row{display:flex; gap:12px; padding:11px 2px; border-bottom:1px dashed var(--line)}
+  .info .k{color:var(--muted); width:96px; flex:none; font-size:14px}
+  .info .v{font-size:14.5px}
+
+  /* 时间线 */
+  .tl{list-style:none; margin:0; padding:0}
+  .tl li{position:relative; padding:0 0 20px 26px; border-left:2px solid #dbe4f5}
+  .tl li:last-child{border-left-color:transparent; padding-bottom:0}
+  .tl li::before{
+    content:""; position:absolute; left:-7px; top:6px; width:12px; height:12px; border-radius:50%;
+    background:#fff; border:2.5px solid var(--brand2);
+  }
+  .tl .when{font-size:13px; color:var(--brand); font-weight:600; letter-spacing:.3px}
+  .tl .what{font-size:15px; margin-top:1px}
+  .tl .sub2{font-size:13.5px; color:var(--muted)}
+
+  /* 论文 */
+  .pub-count{font-size:13px; color:var(--muted); font-weight:400; margin-left:auto}
+  .pubs{list-style:none; margin:0; padding:0}
+  .pub{display:flex; gap:18px; padding:16px 0; border-bottom:1px solid var(--line)}
+  .pub:last-child{border-bottom:0}
+  .pub-yr{
+    flex:none; width:52px; text-align:right; font-weight:700; color:var(--brand);
+    font-variant-numeric:tabular-nums; font-size:15px; padding-top:2px;
+  }
+  .pub-body{min-width:0}
+  .pub-title{font-size:15px; font-weight:600; color:#1d2735}
+  .pub-authors{font-size:13.5px; color:var(--muted); margin:3px 0}
+  .pub-authors b{color:#16202e}
+  .pub-venue{font-size:13px; color:#44506a}
+  .pub-venue .doi{font-size:12.5px; margin-left:6px}
+  .badge{font-size:11px; color:#8a5a00; background:#fdf3dd; border:1px solid #f2e0b6; padding:1px 7px; border-radius:999px; margin-left:6px}
+
+  /* 图谱 */
+  .mapcard{border:1px solid var(--line); border-radius:16px; overflow:hidden; box-shadow:var(--shadow); background:#fff}
+  .mapbar{display:flex; align-items:center; gap:10px; padding:12px 16px; border-bottom:1px solid var(--line); background:#fbfcff}
+  .mapbar .dot{width:9px; height:9px; border-radius:50%; background:#e15b5b; box-shadow:14px 0 0 #f0b03c, 28px 0 0 #57b26a}
+  .mapbar span{font-size:13px; color:var(--muted)}
+  .mapbar a{margin-left:auto; font-size:13px}
+  iframe.map{width:100%; height:1720px; border:0; display:block; background:#fff}
+
+  footer{padding:34px 0 46px; color:var(--muted); font-size:13px; text-align:center}
+  footer a{color:var(--muted)}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:.6s cubic-bezier(.2,.7,.3,1)}
+  .reveal.in{opacity:1; transform:none}
+
+  @media (max-width:760px){
+    .grid2,.info{grid-template-columns:1fr}
+    .hero h1{font-size:28px}
+    iframe.map{height:1500px}
+    nav.links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">吴元伟 <b>·</b> Yuanwei Wu</div>
+    <nav class="links">
+      <a href="#about" data-zh="简介" data-en="About">简介</a>
+      <a href="#cv" data-zh="简历" data-en="CV">简历</a>
+      <a href="#pubs" data-zh="论文" data-en="Publications">论文</a>
+      <a href="#map" data-zh="关系图谱" data-en="Research Map">关系图谱</a>
+    </nav>
+    <div class="lang">
+      <button id="btn-zh" class="on" onclick="setLang('zh')">中文</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- ================= Hero ================= -->
+<div class="hero">
+  <div class="wrap">
+    <div class="avatar">YW</div>
+    <div>
+      <h1 data-zh="吴元伟" data-en="Yuanwei Wu">吴元伟</h1>
+      <div class="en-name" data-zh="YUANWEI WU" data-en="吴元伟">YUANWEI WU</div>
+      <div class="role" data-zh="研究员 · VLBI 测定世界时 UT1 方向学术负责人"
+           data-en="Professor · Academic Lead, VLBI UT1 Determination">研究员 · VLBI 测定世界时 UT1 方向学术负责人</div>
+      <div class="aff" data-zh="中国科学院国家授时中心"
+           data-en="National Time Service Center, Chinese Academy of Sciences">中国科学院国家授时中心</div>
+      <div class="aff">✉ <a href="mailto:yuanwei.wu@ntsc.ac.cn">yuanwei.wu@ntsc.ac.cn</a></div>
+      <div class="chips">
+        <span class="chip" data-zh="VLBI 天体测量" data-en="VLBI Astrometry">VLBI 天体测量</span>
+        <span class="chip" data-zh="世界时 UT1 / 地球定向参数" data-en="UT1 / Earth Orientation Parameters">世界时 UT1 / 地球定向参数</span>
+        <span class="chip" data-zh="脉泽与恒星形成" data-en="Masers &amp; Star Formation">脉泽与恒星形成</span>
+        <span class="chip" data-zh="银河系旋臂结构" data-en="Galactic Spiral Structure">银河系旋臂结构</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= 简介 ================= -->
+<section id="about">
+  <div class="wrap reveal">
+    <h2 class="sec" data-zh="个人简介" data-en="About">个人简介</h2>
+    <p class="sub" data-zh="基础与应用基础研究 · 观测与产品服务"
+       data-en="Basic and applied research · observation &amp; product service">基础与应用基础研究 · 观测与产品服务</p>
+    <p class="bio"
+       data-zh="主要从事 VLBI 天体测量与世界时 UT1 等地球定向参数的测量及服务方向的基础与应用基础研究。参与研制国家授时中心自主世界时测量与服务系统，负责国家授时中心自主世界时及地球定向参数产品的产生。中国天文学会会员，《时间频率学报》编委。2019 年入选中科院“百人计划”，2020 年入选陕西省“青年千人”，国家授时中心世界时测量与服务方向学术带头人。"
+       data-en="My research focuses on VLBI astrometry and the measurement and service of Earth Orientation Parameters such as Universal Time UT1. I participated in developing NTSC’s independent UT1 measurement and service system and am responsible for generating NTSC’s independent UT1 and EOP products. I am a member of the Chinese Astronomical Society and an editorial board member of the Journal of Time and Frequency. I was selected for the CAS “Hundred Talents Program” (2019) and the Shaanxi “Youth Thousand Talents” program (2020), and I lead the UT1 measurement and service direction at NTSC.">
+      主要从事 VLBI 天体测量与世界时 UT1 等地球定向参数的测量及服务方向的基础与应用基础研究。参与研制国家授时中心自主世界时测量与服务系统，负责国家授时中心自主世界时及地球定向参数产品的产生。中国天文学会会员，《时间频率学报》编委。2019 年入选中科院“百人计划”，2020 年入选陕西省“青年千人”，国家授时中心世界时测量与服务方向学术带头人。
+    </p>
+    <div class="grid2" style="margin-top:26px">
+      <div class="card">
+        <h4 data-zh="研究方向" data-en="Research Interests">研究方向</h4>
+        <ul style="margin:0; padding-left:18px; font-size:14.5px; color:#26313f"
+            data-zh="<li>VLBI 天体测量与三角视差</li><li>世界时 UT1 与地球定向参数（EOP）测量与预报</li><li>脉泽天体测量与恒星形成</li><li>银河系旋臂结构（BeSSeL 合作）</li><li>引力与参考系检验、数据处理与仪器</li>"
+            data-en="<li>VLBI astrometry &amp; trigonometric parallax</li><li>UT1 and Earth Orientation Parameters (EOP) measurement &amp; prediction</li><li>Maser astrometry &amp; star formation</li><li>Galactic spiral structure (BeSSeL collaboration)</li><li>Gravitation &amp; reference-frame tests, data processing &amp; instrumentation</li>">
+          <li>VLBI 天体测量与三角视差</li><li>世界时 UT1 与地球定向参数（EOP）测量与预报</li><li>脉泽天体测量与恒星形成</li><li>银河系旋臂结构（BeSSeL 合作）</li><li>引力与参考系检验、数据处理与仪器</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h4 data-zh="学术荣誉" data-en="Honors &amp; Awards">学术荣誉</h4>
+        <ul style="margin:0; padding-left:18px; font-size:14.5px; color:#26313f"
+            data-zh="<li><b>2020</b> 国家自然科学二等奖（第 5 完成人）——“基于高精度脉泽天体测量的银河系旋臂结构研究”</li><li><b>2019</b> 中国科学院“百人计划”</li><li><b>2020</b> 陕西省“青年千人”</li>"
+            data-en="<li><b>2020</b> National Natural Science Award, Second Class (5th laureate) — “Studies of the Milky Way spiral structure based on high-precision maser astrometry”</li><li><b>2019</b> CAS “Hundred Talents Program”</li><li><b>2020</b> Shaanxi Province “Youth Thousand Talents”</li>">
+          <li><b>2020</b> 国家自然科学二等奖（第 5 完成人）——“基于高精度脉泽天体测量的银河系旋臂结构研究”</li><li><b>2019</b> 中国科学院“百人计划”</li><li><b>2020</b> 陕西省“青年千人”</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 简历 ================= -->
+<section id="cv">
+  <div class="wrap reveal">
+    <h2 class="sec" data-zh="个人简历" data-en="Curriculum Vitae">个人简历</h2>
+    <p class="sub" data-zh="基本信息 · 教育与工作经历 · 荣誉奖励"
+       data-en="Basic information · Education &amp; experience · Honors">基本信息 · 教育与工作经历 · 荣誉奖励</p>
+
+    <div class="card" style="margin-bottom:26px">
+      <div class="info">
+        <div class="row"><div class="k" data-zh="姓名" data-en="Name">姓名</div><div class="v" data-zh="吴元伟" data-en="Yuanwei Wu">吴元伟</div></div>
+        <div class="row"><div class="k" data-zh="性别" data-en="Gender">性别</div><div class="v" data-zh="男" data-en="Male">男</div></div>
+        <div class="row"><div class="k" data-zh="出生年月" data-en="Born">出生年月</div><div class="v" data-zh="1983 年 1 月" data-en="Jan. 1983">1983 年 1 月</div></div>
+        <div class="row"><div class="k" data-zh="籍贯" data-en="Hometown">籍贯</div><div class="v" data-zh="河南巩义" data-en="Gongyi, Henan">河南巩义</div></div>
+        <div class="row"><div class="k" data-zh="最高学位" data-en="Degree">最高学位</div><div class="v" data-zh="博士" data-en="Ph.D.">博士</div></div>
+        <div class="row"><div class="k" data-zh="毕业院校" data-en="University">毕业院校</div><div class="v" data-zh="中国科学院大学" data-en="University of Chinese Academy of Sciences">中国科学院大学</div></div>
+        <div class="row"><div class="k" data-zh="专业" data-en="Major">专业</div><div class="v" data-zh="天体物理" data-en="Astrophysics">天体物理</div></div>
+        <div class="row"><div class="k" data-zh="邮箱" data-en="Email">邮箱</div><div class="v"><a href="mailto:yuanwei.wu@ntsc.ac.cn">yuanwei.wu@ntsc.ac.cn</a></div></div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div>
+        <h3 class="grp" data-zh="教育经历" data-en="Education">教育经历</h3>
+        <ul class="tl">
+          <li><div class="when">2011.11 – 2013.11</div>
+              <div class="what" data-zh="马普射电所 · 天体物理" data-en="Max Planck Institute for Radio Astronomy · Astrophysics">马普射电所 · 天体物理</div>
+              <div class="sub2" data-zh="联合培养博士" data-en="Joint Ph.D.">联合培养博士</div></li>
+          <li><div class="when">2010.9 – 2013.12</div>
+              <div class="what" data-zh="紫金山天文台 · 天体物理" data-en="Purple Mountain Observatory · Astrophysics">紫金山天文台 · 天体物理</div>
+              <div class="sub2" data-zh="理学博士" data-en="Ph.D. (Science)">理学博士</div></li>
+          <li><div class="when">2007.9 – 2010.9</div>
+              <div class="what" data-zh="紫金山天文台 · 天体物理" data-en="Purple Mountain Observatory · Astrophysics">紫金山天文台 · 天体物理</div>
+              <div class="sub2" data-zh="理学硕士" data-en="M.Sc. (Science)">理学硕士</div></li>
+          <li><div class="when">2001.9 – 2005.9</div>
+              <div class="what" data-zh="南京航空航天大学 · 应用物理" data-en="Nanjing University of Aeronautics and Astronautics · Applied Physics">南京航空航天大学 · 应用物理</div>
+              <div class="sub2" data-zh="理学学士" data-en="B.Sc. (Science)">理学学士</div></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="grp" data-zh="工作经历" data-en="Experience">工作经历</h3>
+        <ul class="tl">
+          <li><div class="when" data-zh="2017.6 – 至今" data-en="2017.6 – present">2017.6 – 至今</div>
+              <div class="what" data-zh="中国科学院国家授时中心 · 研究员" data-en="National Time Service Center, CAS · Professor">中国科学院国家授时中心 · 研究员</div>
+              <div class="sub2" data-zh="VLBI 测定世界时 UT1 与导航卫星轨道技术负责人" data-en="Lead of VLBI UT1 determination &amp; navigation-satellite orbit technology">VLBI 测定世界时 UT1 与导航卫星轨道技术负责人</div></li>
+          <li><div class="when">2014.5 – 2017.5</div>
+              <div class="what" data-zh="日本国立天文台 · 水沢 VLBI 观测所 · 特任研究员" data-en="NAOJ · Mizusawa VLBI Observatory · Project Researcher">日本国立天文台 · 水沢 VLBI 观测所 · 特任研究员</div></li>
+          <li><div class="when">2007.2 – 2007.8</div>
+              <div class="what" data-zh="南京桑德斯微电子器件有限公司 · 生产技术工程师" data-en="Nanjing Sanders Microelectronics · Production Engineer">南京桑德斯微电子器件有限公司 · 生产技术工程师</div></li>
+          <li><div class="when">2005.9 – 2006.6</div>
+              <div class="what" data-zh="大连松下华录电子信息有限公司 · 生产技术工程师" data-en="Dalian Panasonic Huahu Electronics · Production Engineer">大连松下华录电子信息有限公司 · 生产技术工程师</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 论文 ================= -->
+<section id="pubs">
+  <div class="wrap reveal">
+    <h2 class="sec"><span data-zh="发表论文" data-en="Publications">发表论文</span>
+      <span class="pub-count" data-zh="期刊 43 篇 · 会议 2 篇"
+            data-en="43 journal articles · 2 conference papers">期刊 43 篇 · 会议 2 篇</span>
+    </h2>
+    <p class="sub" data-zh="按发表时间倒序，加粗为吴元伟本人；DOI 可点击"
+       data-en="Sorted by date (newest first); the author in bold is Yuanwei Wu; DOI links are clickable">按发表时间倒序，加粗为吴元伟本人；DOI 可点击</p>
+
+    <h3 class="grp" data-zh="期刊论文" data-en="Journal Articles">期刊论文</h3>
+    <ul class="pubs">
+<li class="pub">
+  <div class="pub-yr">2026</div>
+  <div class="pub-body">
+    <div class="pub-title">An approximately 70-year core-related modulation of Earth rotation and its implications for the leap second</div>
+    <div class="pub-authors">Zewen Zhang; <b>Yuanwei Wu</b>; Xishun Li; Dang Yao; Xuan Cheng; Xuhai Yang; Shougang Zhang</div>
+    <div class="pub-venue">Earth, Planets and Space · 78(1) <a class="doi" href="https://doi.org/10.1186/s40623-026-02529-1" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2026</div>
+  <div class="pub-body">
+    <div class="pub-title">High-Precision UT1 Prediction with Different Angular Momentum Combination Schemes</div>
+    <div class="pub-authors">Zhizhuo Zhang; Xishun Li; Haihua Qiao; <b>Yuanwei Wu</b>; Baoqi Sun; Hui Lei; Haiyan Yang; Qiaoli Kong; Shuaimin</div>
+    <div class="pub-venue">Universe · 12(8) <a class="doi" href="https://doi.org/10.3390/universe12080242" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2026</div>
+  <div class="pub-body">
+    <div class="pub-title">Segmented Polar Motion Prediction Based on Varying Effective Angular Momentum Forecast Horizons</div>
+    <div class="pub-authors">Yangyang Cui; Xishun Li; <b>Yuanwei Wu</b>; Haihua Qiao; Dang Yao; Zewen Zhang; Zhizhuo Zhang; Xuhai Yang</div>
+    <div class="pub-venue">Universe · 12(6) <a class="doi" href="https://doi.org/10.3390/universe12060175" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2026</div>
+  <div class="pub-body">
+    <div class="pub-title">East Asian VLBI Network Astrometry Toward the Star-forming Region G040.96+02.48 in the Extreme Outer Galaxy</div>
+    <div class="pub-authors">X Shen; Zehao Lin; Nobuyuki Sakai; Y Xu; Shuaibo Bian; <b>Yuanwei Wu</b>; Yan Sun; Dejian Liu; J. J. Li; Bo Zhang; Shuangjing Xu; Tomoaki Oyama; Chungsik Oh; Jiang Wu; Lang Cui; Pengfei Jiang; Guanghui Li; Mareki Honma; Se-Jin Oh; Z. Shen; Na Wang</div>
+    <div class="pub-venue">The Astronomical Journal · 171(6) <a class="doi" href="https://doi.org/10.3847/1538-3881/ae64e8" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2026</div>
+  <div class="pub-body">
+    <div class="pub-title">Research on Polar Motion Prediction Accuracy Based on ETH and GFZ Angular Momentum Forecast Products</div>
+    <div class="pub-authors">Xishun Li; <b>Yuanwei Wu</b>; Qiaoli Kong; Hai-Hua Qiao; Tangrenjie Ye; Haiyan Yang; Zhizhuo Zhang; Xuan Cheng; Xuhai Yang; Xiaohui Li; Shougang Zhang</div>
+    <div class="pub-venue">Earth and Space Science · 13(5) <a class="doi" href="https://doi.org/10.1029/2026ea005028" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2026</div>
+  <div class="pub-body">
+    <div class="pub-title">GASV: A New VLBI Analysis Software for Geodesy and Astrometry</div>
+    <div class="pub-authors">Dang Yao; <b>Yuan-Wei Wu</b>; Xu-Hai Yang</div>
+    <div class="pub-venue">Research in Astronomy and Astrophysics · 26(1) <a class="doi" href="https://doi.org/10.1088/1674-4527/ae143e" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2025</div>
+  <div class="pub-body">
+    <div class="pub-title">Research on Universal Time/Length of Day Combination Algorithm Based on Effective Angular Momentum Dataset</div>
+    <div class="pub-authors">Xishun Li; <b>Yuanwei Wu</b>; Dang Yao; Jia Liu; Kai Nan; Zewen Zhang; Weilong Wang; Xuchong Duan; Langming Ma</div>
+    <div class="pub-venue">Remote Sensing · 17(7) <a class="doi" href="https://doi.org/10.3390/rs17071157" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2024</div>
+  <div class="pub-body">
+    <div class="pub-title">Improved LOD and UT1-UTC Prediction Using Least Squares Combined with Polynomial CURVE Fitting</div>
+    <div class="pub-authors">Chao Li; Xishun Li; <b>WU Yuan-wei</b>; Xuhai Yang; Hai-Hua Qiao; Haiyan Yang</div>
+    <div class="pub-venue">Remote Sensing · 16(23) <a class="doi" href="https://doi.org/10.3390/rs16234393" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2024</div>
+  <div class="pub-body">
+    <div class="pub-title">Prospects of Predicting the Polar Motion Based on the Results of the Second Earth Orientation Parameters Prediction Comparison Campaign</div>
+    <div class="pub-authors">Tomasz Kur; Justyna Śliwińska; Małgorzata Wińska; Henryk Dobslaw; Jolanta Nastula; Aleksander Partyka; Santiago Belda; Christian Bizouard; D. H. Boggs; Sara Bruni; Lue Chen; Mike Chin; Sujata Dhar; Robert Dill; Pengshuo Duan; José Manuel Ferrándiz; Junyang Gou; R. S. Gross; Sonia Guessoum; Songtao Han; Robert Heinkelmann; Chengli Huang; Christopher Irrgang; Jacek Kudrys; Jia Li; Marcin Ligas; Lintao Liu; Weitao Lu; Volker Mayer; Wei Miao; Maciej Michalczak; Sadegh Modiri; Michiel Otten; J. T. Ratcliff; Shrishail Raut; Jan Saynisch‐Wagner; Matthias Schartner; Erik Schoenemann; Harald Schuh; Mostafa Kiani Shahvandi; Benedikt S. Soja; Xiaoqing Su; Daniela Thaller; Maik Thomas; Guocheng Wang; <b>Yuanwei Wu</b>; Cancan Xu; Xueqing Xu; Xinyu Yang; Xin Guo Zhao; Zhijin Zhou</div>
+    <div class="pub-venue">Earth and Space Science · 11(11) <a class="doi" href="https://doi.org/10.1029/2023ea003278" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2024</div>
+  <div class="pub-body">
+    <div class="pub-title">Findings on celestial pole offsets predictions in the second earth orientation parameters prediction comparison campaign (2nd EOP PCC)</div>
+    <div class="pub-authors">Małgorzata Wińska; Tomasz Kur; Justyna Śliwińska; Jolanta Nastula; Henryk Dobslaw; Aleksander Partyka; Santiago Belda; Christian Bizouard; D. H. Boggs; Mike Chin; Sujata Dhar; José Manuel Ferrándiz; Junyang Gou; R. S. Gross; Sonia Guessoum; Robert Heinkelmann; Sadegh Modiri; J. T. Ratcliff; Shrishail Raut; Matthias Schartner; Harald Schuh; Mostafa Kiani Shahvandi; Benedikt S. Soja; Daniela Thaller; <b>Yuanwei Wu</b>; Xueqing Xu; Xinyu Yang; Xin Guo Zhao</div>
+    <div class="pub-venue">Earth, Planets and Space · 76(1) <a class="doi" href="https://doi.org/10.1186/s40623-024-02042-3" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2024</div>
+  <div class="pub-body">
+    <div class="pub-title">Assessment of length-of-day and universal time predictions based on the results of the Second Earth Orientation Parameters Prediction Comparison Campaign</div>
+    <div class="pub-authors">Justyna Śliwińska-Bronowicz, Tomasz Kur, Małgorzata Wińska, Henryk Dobslaw, Jolanta Nastula, Aleksander Partyka, Santiago Belda, Christian Bizouard, Dale Boggs, Sara Bruni, Lue Chen, Mike Chin, Sujata Dhar, Robert Dill, Jose Manuel Ferrandiz, Junyang Gou, Richard Gross, Sonia Guessoum, Songtao Han, Robert Heinkelmann, Christopher Irrgang, Mostafa Kiani Shahvandi, Jia Li, Marcin Ligas, Lintao Liu, Weitao Lu, Volker Mayer, Maciej Michalczak, Sadegh Modiri, Michiel Otten, Todd Ratcliff, Shrishail Raut, Jan Saynisch-Wagner, Matthias Schartner, Erik Schoenemann, Harald Schuh, Benedikt Soja, Xiaoqing Su, Daniela Thaller, Maik Thomas, Guocheng Wang, <b>Yuanwei Wu</b>, Xueqing Xu, Xinyu Yang, Xin Zhao &amp; Zhijin Zhou</div>
+    <div class="pub-venue">Journal of Geodesy · 98(3) <a class="doi" href="https://doi.org/10.1007/s00190-024-01824-7" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2024</div>
+  <div class="pub-body">
+    <div class="pub-title">Maser Investigation toward Off-plane Stars (MIOPS): Detection of SiO masers in the Galactic Thick Disk and Halo</div>
+    <div class="pub-authors">Wenjin Yang; <b>Yuanwei Wu</b>; Yan Gong; N. Mauron; Bo Zhang; Karl M. Menten; Xiaofeng Mai; Dejian Liu; Juan Li; J. J. Li</div>
+    <div class="pub-venue">ApJ · 961(2) <a class="doi" href="https://doi.org/10.3847/1538-4357/ad05cb" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2023</div>
+  <div class="pub-body">
+    <div class="pub-title">Research on UT1-UTC and LOD Prediction Algorithm Based on Denoised EAM Dataset</div>
+    <div class="pub-authors">Xishun Li; <b>Yuanwei Wu</b>; Dang Yao; Jia Liu; Kai Nan; Langming Ma; Xuan Cheng; Yang Xuhai; Shougang Zhang</div>
+    <div class="pub-venue">Remote Sensing · 15(19) <a class="doi" href="https://doi.org/10.3390/rs15194654" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2023</div>
+  <div class="pub-body">
+    <div class="pub-title">High-precision polar motion prediction using EOP_20_C04 and EAM based on CSLS+AR and CSLS+LSTM methods</div>
+    <div class="pub-authors">Qiaoli Kong; Jingwei Han; <b>Yuanwei Wu</b>; Tianfa Wang; Yanfei Chen</div>
+    <div class="pub-venue">Geophysical Journal International · 235(2) <a class="doi" href="https://doi.org/10.1093/gji/ggad317" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2023</div>
+  <div class="pub-body">
+    <div class="pub-title">基于地球流体有效角动量函数的UT1分段预报</div>
+    <div class="pub-authors">杨新宇; <b>吴元伟</b>; 赵鑫; 杨旭海; 张首刚</div>
+    <div class="pub-venue">时间频率学报 · 46(2) <a class="doi" href="https://doi.org/10.13875/j.issn.1674-0637.2023-02-0094-11" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">Multi-parameter Polar Motion Prediction Based on Effective Angular Momentum Function</div>
+    <div class="pub-authors">ZHAO Xin; <b>WU Yuan-wei</b>; Xinyu Yang; YANG Xu-hai; Shougang Zhang</div>
+    <div class="pub-venue">Chinese Astronomy and Astrophysics · 46(4) <a class="doi" href="https://doi.org/10.1016/j.chinastron.2022.11.009" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">Water-Maser Survey towards off-plane O-rich AGBs around the orbital plane of the Sagittarius Stellar Stream</div>
+    <div class="pub-authors"><b>Yuanwei Wu</b>; Bo Zhang; Jingjing Li; Xingwu Zheng</div>
+    <div class="pub-venue">MNRAS · 516(2) <a class="doi" href="https://doi.org/10.1093/mnras/stac1971" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">基于有效角动量函数的多参数极移预报</div>
+    <div class="pub-authors">赵鑫; <b>吴元伟</b>; 杨新宇; 杨旭海; 张首刚</div>
+    <div class="pub-venue">天文学报 · 63(4) <a class="doi" href="https://doi.org/10.15940/j.cnki.0001-5245.2022.04.010" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">国家授时中心自主世界时测量与服务系统</div>
+    <div class="pub-authors"><b>吴元伟</b>; 李西顺; 孙保琪; 尹东山; 姚当; 马浪明; 刘佳; 杨海彦; 高玉平; 杨旭海; 张首刚</div>
+    <div class="pub-venue">时间频率学报 · 45(3) <a class="doi" href="https://doi.org/10.13875/j.issn.1674-0637.2022-03-0184-10" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">基于国内宽带VLBI2010系统及iGMAS的UT1/ΔLOD数据融合方法</div>
+    <div class="pub-authors">李西顺; <b>吴元伟</b>; 姚当; 刘佳; 马浪明; 杨旭海; 张首刚</div>
+    <div class="pub-venue">系统工程与电子技术 · 44(5) <a class="doi" href="https://doi.org/10.12305/j.issn.1001-506X.2022.05.26" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">Parallax of Star-forming Region G027.22+0.14</div>
+    <div class="pub-authors">S. B. Bian; Y. Xu; J. J. Li; <b>Y. W. Wu</b>; B. Zhang; X. Chen; Y. J. Li; Z. H. Lin; C. J. Hao; D. J. Liu</div>
+    <div class="pub-venue">The Astronomical Journal · 163(2) <a class="doi" href="https://doi.org/10.3847/1538-3881/ac3d90" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">Light Deflection under the Gravitational Field of Jupiter—Testing General Relativity</div>
+    <div class="pub-authors">Yingjie Li; Ye Xu; JingJing Li; <b>Yuanwei Wu</b>; Shaibo Bian; ZeHao Lin; WenJin Yang; Chaojie Hao; DeJian Liu</div>
+    <div class="pub-venue">ApJ · 925(1) <a class="doi" href="https://doi.org/10.3847/1538-4357/ac3821" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2021</div>
+  <div class="pub-body">
+    <div class="pub-title">基于天文开源软件的卫星干涉测量数据处理系统</div>
+    <div class="pub-authors">朱梦祎; <b>吴元伟</b>; 姚当; 弓剑军; 刘佳; 李西顺; 马浪明; 韦沛; 雷辉; 杨旭海</div>
+    <div class="pub-venue">天文学报 · 62(4) <a class="doi" href="https://doi.org/10.15940/j.cnki.0001-5245.2021.04.007" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2021</div>
+  <div class="pub-body">
+    <div class="pub-title">Trigonometric Parallaxes of Four Star-forming Regions in the Distant Inner Galaxy</div>
+    <div class="pub-authors">Ye Xu; Shuaibo Bian; Mark J. Reid; J. J. Li; Karl M. Menten; T. M. Dame; Bo Zhang; A. Brunthaler; <b>Yuanwei Wu</b>; L. Moscadelli; Gang Wu; Xin Zheng</div>
+    <div class="pub-venue">The Astrophysical Journal Supplement Series · 253(1) <a class="doi" href="https://doi.org/10.3847/1538-4365/abd8cf" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2020</div>
+  <div class="pub-body">
+    <div class="pub-title">The NTSC VLBI System and its application in UT1 measurement</div>
+    <div class="pub-authors">Dang Yao; <b>Yuan-Wei Wu</b>; Bo Zhang; Jing Sun; Yan Sun; Shuang-Jing Xu; Jia Liu; Lang-Ming Ma; Jian-Jun Gong; Ying Yang; Xu-Hai Yang</div>
+    <div class="pub-venue">RAA · 20(6) <a class="doi" href="https://doi.org/10.1088/1674-4527/20/6/93" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2020</div>
+  <div class="pub-body">
+    <div class="pub-title">Assessing the performance of molecular gas clump identification algorithms</div>
+    <div class="pub-authors">Chong Li; Hong-Chi Wang; <b>Yuan-Wei Wu</b>; Yue-Hui Ma; Liang-Hao Lin</div>
+    <div class="pub-venue">RAA · 20(3) <a class="doi" href="https://doi.org/10.1088/1674-4527/20/3/31" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2019</div>
+  <div class="pub-body">
+    <div class="pub-title">Trigonometric Parallaxes of High-mass Star-forming Regions: Our View of the Milky Way</div>
+    <div class="pub-authors">M. J. Reid; K. M. Menten; A. Brunthaler; X. W. Zheng; T. M. Dame; Y. Xu; J. Li; N. Sakai; <b>Y. Wu</b>; K. Immer; B. Zhang; A. Sanna; L. Moscadelli; Kazi L. J. Rygl; A. Bartkiewicz; B. Hu; L. H. Quiroga-Nuñez; H. J. van Langevelde</div>
+    <div class="pub-venue">ApJ · 885(2) <a class="doi" href="https://doi.org/10.3847/1538-4357/ab4a11" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2019</div>
+  <div class="pub-body">
+    <div class="pub-title">Trigonometric Parallaxes of Star-forming Regions beyond the Tangent Point of the Sagittarius Spiral Arm</div>
+    <div class="pub-authors"><b>Y. W. Wu</b>; M. J. Reid; N. Sakai; T. M. Dame; K. M. Menten; A. Brunthaler; Y. Xu; J. J. Li; B. Ho; B. Zhang; Kazi L. J. Rygl; X. W. Zheng</div>
+    <div class="pub-venue">ApJ · 874(1) <a class="doi" href="https://doi.org/10.3847/1538-4357/ab001a" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2018</div>
+  <div class="pub-body">
+    <div class="pub-title">The spiral structure of the Milky Way</div>
+    <div class="pub-authors">Ye Xu; Li-Gang Hou; <b>Yuanwei Wu</b></div>
+    <div class="pub-venue">RAA · 18(12) <a class="doi" href="https://doi.org/10.1088/1674-4527/18/12/146" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2018</div>
+  <div class="pub-body">
+    <div class="pub-title">Revisiting LS I +61°303 with VLBI astrometry</div>
+    <div class="pub-authors"><b>Yuanwei Wu</b>; Guidetta Torricelli-Ciamponi; M. Massi; Mark J. Reid; Bo Zhang; Lijing Shao; X W Zheng</div>
+    <div class="pub-venue">MNRAS · 474(3) <a class="doi" href="https://doi.org/10.1093/mnras/stx3003" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2018</div>
+  <div class="pub-body">
+    <div class="pub-title">SiO Maser Survey towards off-plane O-rich AGBs around the orbital plane of the Sagittarius Stellar Stream</div>
+    <div class="pub-authors"><b>Yuanwei Wu</b>; Noriyuki Matsunaga; Ross A. Burns; Bo Zhang</div>
+    <div class="pub-venue">MNRAS · 473(3) <a class="doi" href="https://doi.org/10.1093/mnras/stx2450" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2017</div>
+  <div class="pub-body">
+    <div class="pub-title">Techniques for Accurate Parallax Measurements for 6.7 GHz Methanol Masers</div>
+    <div class="pub-authors">M. J. Reid; K. M. Menten; A. Brunthaler; B. Zhang; <b>Y. W. Wu</b>; A. Sanna; Y. Xu; L. Moscadelli; X. W. Zheng; T. M. Dame; K. Immer; A. N. Petrov; R. Dodson; X. Chen; Y. Sun; Y. J. Li</div>
+    <div class="pub-venue">AJ · 154(2) <a class="doi" href="https://doi.org/10.3847/1538-3881/aa7850" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2016</div>
+  <div class="pub-body">
+    <div class="pub-title">On the Relationship of UC HII Regions and Class II Methanol Masers. I. Source Catalogs</div>
+    <div class="pub-authors">B. Hu; K. M. Menten; <b>Y. Wu</b>; A. Bartkiewicz; K. Ryl; M. J. Reid; J. S. Urquhart; X. Zheng</div>
+    <div class="pub-venue">ApJ · 833(1) <a class="doi" href="https://doi.org/10.3847/0004-637X/833/1/18" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2016</div>
+  <div class="pub-body">
+    <div class="pub-title">Ammonia and CO outflow around 6.7 GHz Methanol Masers</div>
+    <div class="pub-authors">F. C. Li; Ye Xu; <b>Yuanwei Wu</b>; Ji Yang; D. R. Lu; Karl M. Menten; C. Henkel</div>
+    <div class="pub-venue">AJ · 152(4) <a class="doi" href="https://doi.org/10.3847/0004-6256/152/4/92" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2014</div>
+  <div class="pub-body">
+    <div class="pub-title">Trigonometric Parallaxes of Star Forming Regions in the Scutum Spiral Arm</div>
+    <div class="pub-authors">M. Sato; <b>Y. W. Wu</b>; K. Immer; B. Zhang; A. Sanna; M. J. Reid; T. M. Dame; A. Brunthaler; K. M. Menten</div>
+    <div class="pub-venue">ApJ · 793(2) <a class="doi" href="https://doi.org/10.1088/0004-637x/793/2/72" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2014</div>
+  <div class="pub-body">
+    <div class="pub-title">Trigonometric Parallaxes of Star Forming Regions in the Sagittarius Spiral Arm</div>
+    <div class="pub-authors"><b>Y. W. Wu</b>; M. Sato; M. J. Reid; L. Moscadelli; B. Zhang; Y. Xu; A. Brunthaler; K. M. Menten; T. M. Dame; X. W. Zheng</div>
+    <div class="pub-venue">A&amp;A · 566 <a class="doi" href="https://doi.org/10.1051/0004-6361/201322765" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2014</div>
+  <div class="pub-body">
+    <div class="pub-title">6.7 GHz methanol maser survey toward GLIMPSE point sources and BGPS 1.1 mm dust clumps</div>
+    <div class="pub-authors">Yan Sun; Ye Xu; Xi Chen; Bo Zhang; <b>Yuan-Wei Wu</b>; Christian Henkel; Andreas Brunthaler; Yoon Kyung Choi; Xing-Wu Zheng</div>
+    <div class="pub-venue">A&amp;A · 563 <a class="doi" href="https://doi.org/10.1051/0004-6361/201323047" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2013</div>
+  <div class="pub-body">
+    <div class="pub-title">Herschel/HIFI Observations of a New Interstellar Water Maser: The 532 – 441 Transition at 620.701 GHz</div>
+    <div class="pub-authors">David A. Neufeld; <b>Yuanwei Wu</b>; Alex Kraus; Karl M. Menten; Volker Tolls; Gary J. Melnick; Z. Nagy</div>
+    <div class="pub-venue">ApJ · 769(1) <a class="doi" href="https://doi.org/10.1088/0004-637X/769/1/48" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2011</div>
+  <div class="pub-body">
+    <div class="pub-title">The VLBA Calibrator Search for the BeSSeL Survey</div>
+    <div class="pub-authors">K. Immer; A. Brunthaler; Mark J. Reid; A. Bartkiewicz; Yoon Kyung Choi; Karl M. Menten; L. Moscadelli; A. Sanna; <b>Yuanwei Wu</b>; Ye Xu; Bo Zhang; Xin Zheng</div>
+    <div class="pub-venue">ApJS · 194(2) <a class="doi" href="https://doi.org/10.1088/0067-0049/194/2/25" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2011</div>
+  <div class="pub-body">
+    <div class="pub-title">The Bar and Spiral Structure Legacy (BeSSeL) survey: Mapping the Milky Way with VLBI astrometry</div>
+    <div class="pub-authors">A. Brunthaler; M.J. Reid; K.M. Menten; X.‐W. Zheng; A. Bartkiewicz; Y.K. Choi; T. M. Dame; K. Hachisuka; K. Immer; G. Moellenbrock; L. Moscadelli; Kazi L. J. Rygl; A. Sanna; M. Sato; <b>Y. Wu</b>; Y. Xu; B. Zhang</div>
+    <div class="pub-venue">AN · 332(5) <a class="doi" href="https://doi.org/10.1002/asna.201111560" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2011</div>
+  <div class="pub-body">
+    <div class="pub-title">Multiwavelength study of low-luminosity 6.7-GHz methanol masers</div>
+    <div class="pub-authors"><b>Yuan-Wei Wu</b>; Ye Xu; Ji Yang</div>
+    <div class="pub-venue">RAA · 11(2) <a class="doi" href="https://doi.org/10.1088/1674-4527/11/2/002" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2010</div>
+  <div class="pub-body">
+    <div class="pub-title">Ammonia and CO Observations Toward Low-luminosity 6.7 GHz Methanol Masers</div>
+    <div class="pub-authors"><b>Y. W. Wu</b>; Y. Xu; J. D. Pandian; J. Yang; C. Henkel; K. M. Menten; S. B. Zhang</div>
+    <div class="pub-venue">ApJ · 720(1) <a class="doi" href="https://doi.org/10.1088/0004-637x/720/1/392" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2009</div>
+  <div class="pub-body">
+    <div class="pub-title">A multiwavelength study of the massive star-forming region IRAS 22506+5944</div>
+    <div class="pub-authors"><b>Yuanwei Wu</b>; Ye Xu; Ji Yang; Jingjing Li</div>
+    <div class="pub-venue">RAA · 9(12) <a class="doi" href="https://doi.org/10.1088/1674-4527/9/12/006" target="_blank" rel="noopener">DOI↗</a></div>
+  </div>
+</li>
+    </ul>
+
+    <h3 class="grp" data-zh="会议论文" data-en="Conference Papers">会议论文</h3>
+    <ul class="pubs">
+<li class="pub">
+  <div class="pub-yr">2022</div>
+  <div class="pub-body">
+    <div class="pub-title">Searching masers from the Sagittarius stellar stream</div>
+    <div class="pub-authors"><b>Yuanwei Wu</b>; Bo Zhang; Yan Gong; Wenjin Yang; N. Mauron</div>
+    <div class="pub-venue">Proceedings of the International Astronomical Union · 18(S380) <a class="doi" href="https://doi.org/10.1017/s1743921323002387" target="_blank" rel="noopener">DOI↗</a> <span class="badge">Conference</span></div>
+  </div>
+</li>
+<li class="pub">
+  <div class="pub-yr">2012</div>
+  <div class="pub-body">
+    <div class="pub-title">Trigonometric Parallax of RCW 122</div>
+    <div class="pub-authors"><b>Y. W. Wu</b> ，Y. Xu，K. M. Menten， X. W. Zheng， and M. J. Reid</div>
+    <div class="pub-venue">Proceedings of the International Astronomical Union · 8(S287) <a class="doi" href="https://doi.org/10.1017/s1743921312007466" target="_blank" rel="noopener">DOI↗</a> <span class="badge">Conference</span></div>
+  </div>
+</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 关系图谱 ================= -->
+<section id="map">
+  <div class="wrap reveal">
+    <h2 class="sec" data-zh="论文关系图谱" data-en="Publication Relationship Map">论文关系图谱</h2>
+    <p class="sub" data-zh="合作者关系与研究方向—学科谱图（多学科合作者以饼图呈现）；可拖拽、缩放、旋转。"
+       data-en="Collaborator network and research-direction / discipline map (multi-discipline collaborators shown as pie charts); drag, zoom and rotate.">合作者关系与研究方向—学科谱图（多学科合作者以饼图呈现）；可拖拽、缩放、旋转。</p>
+    <div class="mapcard">
+      <div class="mapbar">
+        <span class="dot"></span>
+        <span data-zh="交互式图谱" data-en="Interactive map">交互式图谱</span>
+        <a id="maplink" href="#" target="_blank" rel="noopener" data-zh="在新窗口打开 ↗" data-en="Open in new tab ↗">在新窗口打开 ↗</a>
+      </div>
+      <iframe class="map" id="mapframe" loading="lazy"
+              data-src-zh="map_zh.html"
+              data-src-en="map_en.html"
+              src="map_zh.html"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span data-zh="© 吴元伟 · 中国科学院国家授时中心" data-en="© Yuanwei Wu · National Time Service Center, CAS">© 吴元伟 · 中国科学院国家授时中心</span>
+    · <a href="mailto:yuanwei.wu@ntsc.ac.cn">yuanwei.wu@ntsc.ac.cn</a>
+  </div>
+</footer>
+
+<script>
+var TITLES = {zh:'吴元伟 · Yuanwei Wu', en:'Yuanwei Wu · Publications & CV'};
+function setLang(l){
+  document.documentElement.lang = (l === 'zh' ? 'zh-CN' : 'en');
+  document.title = TITLES[l];
+  document.querySelectorAll('[data-zh]').forEach(function(el){
+    var v = el.getAttribute('data-' + l);
+    if (v !== null) el.innerHTML = v;
+  });
+  var f = document.getElementById('mapframe');
+  if (f){ var s = f.getAttribute('data-src-' + l); if (s) f.src = s; var a = document.getElementById('maplink'); if (a) a.href = s; }
+  document.getElementById('btn-zh').classList.toggle('on', l === 'zh');
+  document.getElementById('btn-en').classList.toggle('on', l === 'en');
+  try{ localStorage.setItem('lang', l); }catch(e){}
+}
+(function(){
+  var saved = 'zh';
+  try{ saved = localStorage.getItem('lang') || 'zh'; }catch(e){}
+  setLang(saved);
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting) e.target.classList.add('in'); });
+  }, {threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
